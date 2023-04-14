@@ -21,7 +21,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Matrix4x4 rotateXMatrix = calc->MakeRotateXMatrix(rotate.x);
 	Matrix4x4 rotateYMatrix = calc->MakeRotateYMatrix(rotate.y);
 	Matrix4x4 rotateZMatrix = calc->MakeRotateZMatrix(rotate.z);
-	Matrix4x4 rotateXYZMatrix = matrix->Multiply(rotateXMatrix, matrix->Multiply(rotateYMatrix, rotateZMatrix);
+	Matrix4x4 rotateYZMatrix = matrix->Multiply(rotateYMatrix, rotateZMatrix);
+	Matrix4x4 rotateXYZMatrix = matrix->Multiply(rotateXMatrix, rotateYZMatrix);
 
 
 	// ウィンドウの×ボタンが押されるまでループ
@@ -44,6 +45,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		///
 		/// ↓描画処理ここから
 		///
+
+		
 
 		///
 		/// ↑描画処理ここまで
