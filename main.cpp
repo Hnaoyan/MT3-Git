@@ -1,4 +1,5 @@
 #include <Novice.h>
+#include"Calc.h"
 
 const char kWindowTitle[] = "学籍番号";
 
@@ -11,6 +12,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	// キー入力結果を受け取る箱
 	char keys[256] = {0};
 	char preKeys[256] = {0};
+
+	Calc calc = new Calc();
+
+	Vector3 translate{ 4.1f,2.6f,0.8f };
+	Vector3 scale{ 1.5f,5.2f,7.3f };
+	Matrix4x4 translateMatrix = calc.MakeTranslateMatrix(translate);
+	Matrix4x4 scaleMatrix = calc.MakeScaleMatrix(scale);
 
 	// ウィンドウの×ボタンが押されるまでループ
 	while (Novice::ProcessMessage() == 0) {
