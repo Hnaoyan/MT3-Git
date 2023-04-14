@@ -20,6 +20,7 @@ Matrix4x4 Calc::MakeRotateYMatrix(float radian) {
 	result.m[2][0] = std::sinf(radian);
 	result.m[2][2] = std::cosf(radian);
 	result.m[3][3] = 1.0f;
+	return result;
 }
 
 Matrix4x4 Calc::MakeRotateZMatrix(float radian) {
