@@ -32,3 +32,13 @@ Matrix4x4 Calc::MakeRotateZMatrix(float radian) {
 	result.m[3][3] = 1.0f;
 	return result;
 }
+
+Vector3 Calc::Multiply(float scaler, const Vector3& v) {
+	Vector3 result;
+
+	result.x = scaler * v.x;
+	result.y = scaler * v.y;
+	result.z = scaler * v.z;
+
+	return result;
+}
