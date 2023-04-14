@@ -13,12 +13,22 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	char keys[256] = {0};
 	char preKeys[256] = {0};
 
-	Calc calc = new Calc();
+	Calc* calc = new Calc();
 
 	Vector3 translate{ 4.1f,2.6f,0.8f };
 	Vector3 scale{ 1.5f,5.2f,7.3f };
-	Matrix4x4 translateMatrix = calc.MakeTranslateMatrix(translate);
-	Matrix4x4 scaleMatrix = calc.MakeScaleMatrix(scale);
+	Matrix4x4 translateMatrix = calc->MakeTranslateMatrix(translate);
+	Matrix4x4 scaleMatrix = calc->MakeScaleMatrix(scale);
+	Vector3 point{ 2.3f,3.8f,1.4f };
+	Matrix4x4 transformMatrix = {
+		1.0f,2.0f,3.0f,4.0f,
+		3.0f,1.0f,1.0f,2.0f,
+		1.0f,4.0f,2.0f,3.0f,
+		2.0f,2.0f,1.0f,3.0f
+	};
+	Vector3 transformed = calc->Transform(point, transformMatrix);
+
+	
 
 	// ウィンドウの×ボタンが押されるまでループ
 	while (Novice::ProcessMessage() == 0) {
