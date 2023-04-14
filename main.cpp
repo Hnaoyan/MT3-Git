@@ -25,6 +25,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		Vector3 v1 = { 1.0f,3.0f,-5.0f };
 		Vector3 v2 = { 4.0f,-1.0f,2.0f };
 		float k = { 4.0f };
+		float kRowHeight = 30;
 
 		Calc* calc = new Calc();
 
@@ -39,8 +40,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		///
 		/// ↓更新処理ここから
 		///
-
-		float kRowHeight = 30;
 
 		///
 		/// ↑更新処理ここまで
