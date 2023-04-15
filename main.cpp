@@ -1,5 +1,4 @@
 #include <Novice.h>
-#include"Calc.h"
 #include"Matrix.h"
 
 const char kWindowTitle[] = "学籍番号";
@@ -29,13 +28,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	char keys[256] = {0};
 	char preKeys[256] = {0};
 
-	Calc* calc = nullptr;
 	Matrix* matrix = nullptr;
 
 	Vector3 rotate{ 0.4f,1.43f,-0.8f };
-	Matrix4x4 rotateXMatrix = calc->MakeRotateXMatrix(rotate.x);
-	Matrix4x4 rotateYMatrix = calc->MakeRotateYMatrix(rotate.y);
-	Matrix4x4 rotateZMatrix = calc->MakeRotateZMatrix(rotate.z);
+	Matrix4x4 rotateXMatrix = matrix->MakeRotateXMatrix(rotate.x);
+	Matrix4x4 rotateYMatrix = matrix->MakeRotateYMatrix(rotate.y);
+	Matrix4x4 rotateZMatrix = matrix->MakeRotateZMatrix(rotate.z);
 	Matrix4x4 rotateYZMatrix = matrix->Multiply(rotateYMatrix, rotateZMatrix);
 	Matrix4x4 rotateXYZMatrix = matrix->Multiply(rotateXMatrix, rotateYZMatrix);
 
