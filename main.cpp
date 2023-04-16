@@ -6,17 +6,16 @@ const char kWindowTitle[] = "学籍番号";
 static const int kRowHeight = 20;
 static const int kColumnWidth = 60;
 
-void MatrixScreenPrintf(int x, int y, const Matrix4x4& matrix) {
+void MatrixScreenPrintf(int x, int y, const Matrix4x4& matrix, const char* label) {
+	Novice::ScreenPrintf(x, y, "%s", label);
 	for (int row = 0; row < 4; ++row) {
 		for (int column = 0; column < 4; ++column) {
 			Novice::ScreenPrintf(
-				int(x + column * kColumnWidth), int(y + row * kRowHeight), "%6.02f", matrix.m[row][column]
+				int(x + column * kColumnWidth), int(y + (row + 1) * kRowHeight), "%6.02f", matrix.m[row][column]
 			);
 		}
 	}
 }
-
-
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
@@ -48,8 +47,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Matrix4x4 resultAdd = matrix->Add(m1, m2);// 加法
 	Matrix4x4 resultMultiply = matrix->Multiply(m1, m2);
 	Matrix4x4 resultSubtract = matrix->Subtract(m1, m2);
-	//Matrix4x4 inverseM1;
-	//Matrix4x4 inverseM2;
+	Matrix4x4 inverseM1 = matrix->Inverse(m1);
+	Matrix4x4 inverseM2 = matrix->Inverse(m2);
 	Matrix4x4 transposeM1 = matrix->Transpose(m1);
 	Matrix4x4 transposeM2 = matrix->Transpose(m2);
 	Matrix4x4 identity = matrix->MakeIdentity4x4();
@@ -75,12 +74,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		/// ↓描画処理ここから
 		///
 
-		MatrixScreenPrintf(int(0), int(0), resultAdd);
-		MatrixScreenPrintf(int(0), int(kRowHeight * 5), resultSubtract);
-		MatrixScreenPrintf(int(0), int(kRowHeight * 5 * 2), resultMultiply);
-		MatrixScreenPrintf(int(kColumnWidth * 5), 0, transposeM1);
-		MatrixScreenPrintf(int(kColumnWidth * 5), int(kRowHeight * 5), transposeM2);
-		MatrixScreenPrintf(int(kColumnWidth * 5), int(kRowHeight * 5 * 2), identity);
+		MatrixScreenPrintf(int(0), int(0), resultAdd, "Add");
+		MatrixScreenPrintf(int(0), int(kRowHeight * 5), resultSubtract, "Subtract");
+		MatrixScreenPrintf(int(0), int(kRowHeight * 5 * 2), resultMultiply, "Multiply");
+		MatrixScreenPrintf(int(0), int(kRowHeight * 5 * 3), inverseM1, "inverseM1");
+		MatrixScreenPrintf(int(0), int(kRowHeight * 5 * 4), inverseM2, "inverseM2");
+		MatrixScreenPrintf(int(kColumnWidth * 5), 0, transposeM1, "transposeM1");
+		MatrixScreenPrintf(int(kColumnWidth * 5), int(kRowHeight * 5), transposeM2, "transposeM2");
+		MatrixScreenPrintf(int(kColumnWidth * 5), int(kRowHeight * 5 * 2), identity, "identity");
 
 
 		///
