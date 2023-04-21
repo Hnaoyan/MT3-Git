@@ -2,11 +2,11 @@
 #include <Matrix4x4.h>
 #include <Vector3.h>
 
-class Calc
+class Matrix
 {
 public:
-	Calc() {};
-	~Calc() {};
+	Matrix() {};
+	~Matrix() {};
 
 public:
 	Matrix4x4 MakeTranslateMatrix(const Vector3& translate);

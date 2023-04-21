@@ -1,5 +1,5 @@
 #include <Novice.h>
-#include"Calc.h"
+#include"Matrix.h"
 
 const char kWindowTitle[] = "学籍番号";
 static const int kRowHeight = 20;
@@ -34,12 +34,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	char keys[256] = {0};
 	char preKeys[256] = {0};
 
-	Calc* calc = new Calc();
+	Matrix* matrix = new Matrix();
 
 	Vector3 translate{ 4.1f,2.6f,0.8f };
 	Vector3 scale{ 1.5f,5.2f,7.3f };
-	Matrix4x4 translateMatrix = calc->MakeTranslateMatrix(translate);
-	Matrix4x4 scaleMatrix = calc->MakeScaleMatrix(scale);
+	Matrix4x4 translateMatrix = matrix->MakeTranslateMatrix(translate);
+	Matrix4x4 scaleMatrix = matrix->MakeScaleMatrix(scale);
 	Vector3 point{ 2.3f,3.8f,1.4f };
 	Matrix4x4 transformMatrix = {
 		1.0f,2.0f,3.0f,4.0f,
@@ -47,7 +47,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		1.0f,4.0f,2.0f,3.0f,
 		2.0f,2.0f,1.0f,3.0f
 	};
-	Vector3 transformed = calc->Transform(point, transformMatrix);
+	Vector3 transformed = matrix->Transform(point, transformMatrix);
 
 	
 
@@ -85,7 +85,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		// ESCキーが押されたらループを抜ける
 		if (preKeys[DIK_ESCAPE] == 0 && keys[DIK_ESCAPE] != 0) {
-			delete calc;
+			delete matrix;
 			break;
 		}
 	}
