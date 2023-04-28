@@ -43,7 +43,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Vector3 v2{ 2.8f,0.4f,-1.3f };
 	Vector3 rotate{};
 	Vector3 translate{};
-	Vector3 cameraPosition{};
+	Vector3 cameraPosition{0,0,-50};
 
 	Vector3 cross = render->Cross(v1, v2);
 
@@ -66,11 +66,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		/// ↓更新処理ここから
 		///
 
+		rotate.y += 0.01f;
+
 		if (keys[DIK_W]) {
-			translate.y += 1;
+			translate.z += 1;
 		}
 		else if (keys[DIK_S]) {
-			translate.y -= 1;
+			translate.z -= 1;
 		}
 
 		if (keys[DIK_A]) {
@@ -81,18 +83,17 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		}
 
 		// 各種計算
-		Matrix4x4 worldMatrix = matrix->MakeAffineMatrix({ 1.0f,1.0f,1.0f }, rotate, translate);
-		Matrix4x4 cameraMatrix = matrix->MakeAffineMatrix({ 1.0f,1.0f,1.0f }, { 0.0f,0.0f,0.0f }, cameraPosition);
-		Matrix4x4 viewMatrix = matrix->Inverse(cameraMatrix);
+		Matrix4x4 worldMatrix = Matrix::MakeAffineMatrix({ 1.0f,1.0f,1.0f }, rotate, translate);
+		Matrix4x4 cameraMatrix = Matrix::MakeAffineMatrix({ 1.0f,1.0f,1.0f }, { 0.0f,0.0f,0.0f }, cameraPosition);
+		Matrix4x4 viewMatrix = Matrix::Inverse(cameraMatrix);
 		Matrix4x4 projectionMatrix = render->MakePerspectiveFovMatrix(0.45f, float(kWindowWidth) / float(kWindowHeight), 0.1f, 100.0f);
-		Matrix4x4 worldViewProjectionMatrix = matrix->Multiply(worldMatrix, matrix->Multiply(viewMatrix, projectionMatrix));
+		Matrix4x4 worldViewProjectionMatrix = Matrix::Multiply(worldMatrix, Matrix::Multiply(viewMatrix, projectionMatrix));
 		Matrix4x4 viewportMatrix = render->MakeViewportMatrix(0, 0, float(kWindowWidth), float(kWindowHeight), 0.0f, 1.0f);
 		Vector3 screenVertices[3];
 		for (uint32_t i = 0; i < 3; ++i) {
 			Vector3 ndcVertex = Matrix::Transform(kLocalVertices[i], worldViewProjectionMatrix);
-			screenVertices[i] = matrix->Transform(ndcVertex, viewportMatrix);
+			screenVertices[i] = Matrix::Transform(ndcVertex, viewportMatrix);
 		}
-
 
 		///
 		/// ↑更新処理ここまで
