@@ -4,8 +4,8 @@
 
 Matrix4x4 Matrix::Add(const Matrix4x4& m1, const Matrix4x4& m2) {
 	Matrix4x4 result;
-	for (int y = 0; y < this->IndexY; y++) {
-		for (int x = 0; x < this->IndexX; x++) {
+	for (int y = 0; y < 4; y++) {
+		for (int x = 0; x < 4; x++) {
 			result.m[y][x] = m1.m[y][x] + m2.m[y][x];
 		}
 	}
@@ -14,8 +14,8 @@ Matrix4x4 Matrix::Add(const Matrix4x4& m1, const Matrix4x4& m2) {
 
 Matrix4x4 Matrix::Subtract(const Matrix4x4& m1, const Matrix4x4& m2) {
 	Matrix4x4 result;
-	for (int y = 0; y < this->IndexY; y++) {
-		for (int x = 0; x < this->IndexX; x++) {
+	for (int y = 0; y < 4; y++) {
+		for (int x = 0; x < 4; x++) {
 			result.m[y][x] = m1.m[y][x] - m2.m[y][x];
 		}
 	}
@@ -37,8 +37,8 @@ Matrix4x4 Matrix::Multiply(const Matrix4x4& m1, const Matrix4x4& m2) {
 
 Matrix4x4 Matrix::Transpose(const Matrix4x4& m) {
 	Matrix4x4 result;
-	for (int y = 0; y < this->IndexY; y++) {
-		for (int x = 0; x < this->IndexX; x++) {
+	for (int y = 0; y < 4; y++) {
+		for (int x = 0; x < 4; x++) {
 			result.m[y][x] = m.m[x][y];
 		}
 	}

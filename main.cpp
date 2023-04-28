@@ -47,6 +47,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	Vector3 cross = render->Cross(v1, v2);
 
+	Vector3 kLocalVertices[3] = {
+		{0,5.0f,1.0f},
+		{-5.0f,-5.0f,1.0f},
+		{5.0f,-5.0f,1.0f}
+	};
+
 	// ウィンドウの×ボタンが押されるまでループ
 	while (Novice::ProcessMessage() == 0) {
 		// フレームの開始
@@ -61,10 +67,17 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		///
 
 		if (keys[DIK_W]) {
-			cameraPosition.y += 1;
+			translate.y += 1;
 		}
 		else if (keys[DIK_S]) {
-			cameraPosition.y -= 1;
+			translate.y -= 1;
+		}
+
+		if (keys[DIK_A]) {
+			translate.x -= 1;
+		}
+		else if (keys[DIK_D]) {
+			translate.x += 1;
 		}
 
 		// 各種計算
@@ -76,7 +89,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		Matrix4x4 viewportMatrix = render->MakeViewportMatrix(0, 0, float(kWindowWidth), float(kWindowHeight), 0.0f, 1.0f);
 		Vector3 screenVertices[3];
 		for (uint32_t i = 0; i < 3; ++i) {
-			Vector3 ndcVertex=matrix->Transform()
+			Vector3 ndcVertex = Matrix::Transform(kLocalVertices[i], worldViewProjectionMatrix);
+			screenVertices[i] = matrix->Transform(ndcVertex, viewportMatrix);
 		}
 
 
@@ -89,6 +103,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		///
 
 		VectorScreenPrintf(0, 0, cross, "Cross");
+		VectorScreenPrintf(0, 20, screenVertices[2], "screen");
+		VectorScreenPrintf(0, 40, screenVertices[1], "screen");
+		VectorScreenPrintf(0, 60, screenVertices[0], "screen");
+
+		Novice::DrawTriangle(int(screenVertices[0].x), int(screenVertices[0].y), int(screenVertices[1].x), int(screenVertices[1].y),
+			int(screenVertices[2].x), int(screenVertices[2].y), RED, kFillModeSolid);
+
 
 
 		///
