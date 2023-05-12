@@ -22,6 +22,7 @@ public:
 	static Matrix4x4 Multiply(const Matrix4x4& m1, const Matrix4x4& m2);
 	static Vector3 Multiply(float scaler, const Vector3& v);
 	static Vector3 Transform(const Vector3& vector, const Matrix4x4& matrix);
+	static float Dot(const Vector3& v1, const Vector3& v2);
 
 };
 

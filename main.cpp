@@ -53,6 +53,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		{5.0f,-5.0f,1.0f}
 	};
 
+	bool isDraw = false;
+
 	// ウィンドウの×ボタンが押されるまでループ
 	while (Novice::ProcessMessage() == 0) {
 		// フレームの開始
@@ -95,6 +97,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			screenVertices[i] = Matrix::Transform(ndcVertex, viewportMatrix);
 		}
 
+		float dot = Matrix::Dot(cameraPosition, cross);
+
+		if (dot <= 0) {
+
+		}
+
 		///
 		/// ↑更新処理ここまで
 		///
@@ -108,9 +116,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		VectorScreenPrintf(0, 40, screenVertices[1], "screen");
 		VectorScreenPrintf(0, 60, screenVertices[0], "screen");
 
-		Novice::DrawTriangle(int(screenVertices[0].x), int(screenVertices[0].y), int(screenVertices[1].x), int(screenVertices[1].y),
-			int(screenVertices[2].x), int(screenVertices[2].y), RED, kFillModeSolid);
-
+		if (isDraw) {
+			Novice::DrawTriangle(int(screenVertices[0].x), int(screenVertices[0].y), int(screenVertices[1].x), int(screenVertices[1].y),
+				int(screenVertices[2].x), int(screenVertices[2].y), RED, kFillModeSolid);
+		}
 
 
 		///
