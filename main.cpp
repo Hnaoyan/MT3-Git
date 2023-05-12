@@ -20,18 +20,18 @@ void DrawGrid(const Matrix4x4& viewProjectionMatrix, const Matrix4x4& viewportMa
 	const float kGridHalfWidth = 2.0f;
 	const uint32_t kSubdivision = 10;
 	const float kGridEvery = (kGridHalfWidth * 2.0f) / float(kSubdivision);
-	Vector3 gridPoint[11];
-	Vector3 gridScreenPoint[11];
+	Vector3 worldVertex[2];
+	Vector3 screenVertex[2];
+	Vector3 ndcVertex;
 	// 奥から手前への線を順々に引いていく
 	for (uint32_t xIndex = 0; xIndex <= kSubdivision; ++xIndex) {
 		// 上の情報を使ってワールド座標系上の始点と終点を求める
+		worldVertex[0] = {xIndex* ,0,kGridEvery };
+		worldVertex[1] = {};
 		// スクリーン座標系まで変換をかける
+		 
+		
 		// 変換した座標を使って表示。色は薄い灰色(0xAAAAAAFF)
-		gridPoint[xIndex] = {};
-		gridPoint[xIndex].x = float((xIndex + -6)) * float(kSubdivision);
-		gridScreenPoint[xIndex] = Matrix::Transform(gridPoint[xIndex], viewProjectionMatrix);
-		gridScreenPoint[xIndex] = Matrix::Transform(gridScreenPoint[xIndex], viewportMatrix);
-		Novice::DrawLine(int(gridScreenPoint[xIndex].x), int(gridScreenPoint[xIndex].z), int(gridScreenPoint[xIndex + 1].x), int(gridScreenPoint[xIndex + 1].z), BLACK);
 	}
 	//// 左から右も同じように順々に引いていく
 	//for (uint32_t zIndex = 0; zIndex <= kSubdivision; ++zIndex) {
@@ -40,24 +40,24 @@ void DrawGrid(const Matrix4x4& viewProjectionMatrix, const Matrix4x4& viewportMa
 	//}
 }
 
-void DrawSphere(const Sphere& sphere, const Matrix4x4& viewProjectionMatrix, const Matrix4x4& viewportMatrix, uint32_t color) {
-	const uint32_t kSubdivision = 0;
-	const float kLonEvery = 0;
-	const float kLatEvery = 0;
-
-	// 緯度の方向に分割 -π/2 ~ -π/2
-	for (uint32_t latIndex = 0; latIndex < kSubdivision; ++latIndex) {
-		float lat =  (-M_PI) / 2.0f + kLatEvery * latIndex;	// 緯度
-		// 緯度の方向に分割
-		for (uint32_t lonIndex = 0; lonIndex < kSubdivision; ++lonIndex) {
-			float lon = lonIndex * kLonEvery; // 現在の経度
-			// World座標系でのa,b,cを求める
-			Vector3 a, b, c;
-
-		}
-
-	}
-}
+//void DrawSphere(const Sphere& sphere, const Matrix4x4& viewProjectionMatrix, const Matrix4x4& viewportMatrix, uint32_t color) {
+//	const uint32_t kSubdivision = 0;
+//	const float kLonEvery = 0;
+//	const float kLatEvery = 0;
+//
+//	// 緯度の方向に分割 -π/2 ~ -π/2
+//	for (uint32_t latIndex = 0; latIndex < kSubdivision; ++latIndex) {
+//		float lat =  (-M_PI) / 2.0f + kLatEvery * latIndex;	// 緯度
+//		// 緯度の方向に分割
+//		for (uint32_t lonIndex = 0; lonIndex < kSubdivision; ++lonIndex) {
+//			float lon = lonIndex * kLonEvery; // 現在の経度
+//			// World座標系でのa,b,cを求める
+//			Vector3 a, b, c;
+//
+//		}
+//
+//	}
+//}
 
 void MatrixScreenPrintf(int x, int y, const Matrix4x4& matrix, const char* label) {
 	Novice::ScreenPrintf(x, y, "%s", label);
