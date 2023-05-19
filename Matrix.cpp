@@ -208,16 +208,6 @@ Matrix4x4 Matrix::MakeRotateZMatrix(float radian) {
 	return result;
 }
 
-Vector3 Matrix::Multiply(float scaler, const Vector3& v) {
-	Vector3 result;
-
-	result.x = scaler * v.x;
-	result.y = scaler * v.y;
-	result.z = scaler * v.z;
-
-	return result;
-}
-
 Vector3 Matrix::Transform(const Vector3& vector, const Matrix4x4& matrix) {
 	Vector3 result;
 	result.x = vector.x * matrix.m[0][0] + vector.y * matrix.m[1][0] + vector.z * matrix.m[2][0] + 1.0f * matrix.m[3][0];
@@ -228,5 +218,12 @@ Vector3 Matrix::Transform(const Vector3& vector, const Matrix4x4& matrix) {
 	result.x /= w;
 	result.y /= w;
 	result.z /= w;
+	return result;
+}
+
+Vector3 Matrix::ScreenChange(const Vector3& center, const Matrix4x4& ViewProjectionMatrix, const Matrix4x4& viewportMatrix) {
+	Vector3 result;
+	result = Transform(center, ViewProjectionMatrix);
+	result = Transform(result, viewportMatrix);
 	return result;
 }
