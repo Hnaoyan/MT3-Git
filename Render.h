@@ -12,6 +12,6 @@ public:
 	// 3.Viewport
 	Matrix4x4 MakeViewportMatrix(float left, float top, float width, float height, float minDepth, float maxDepth);
 	// 4.Cross
-	Vector3 Cross(const Vector3& v1, const Vector3& v2);
+	static Vector3 Cross(const Vector3& v1, const Vector3& v2);
 };
 

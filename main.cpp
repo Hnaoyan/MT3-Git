@@ -53,6 +53,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		{5.0f,-5.0f,1.0f}
 	};
 
+	Vector3 judCross[2];
+	
+
 	bool isDraw = false;
 
 	// ウィンドウの×ボタンが押されるまでループ
@@ -97,10 +100,17 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			screenVertices[i] = Matrix::Transform(ndcVertex, viewportMatrix);
 		}
 
-		float dot = Matrix::Dot(cameraPosition, cross);
+		judCross[0] = { screenVertices[0].x - screenVertices[1].x, screenVertices[0].y - screenVertices[1].y };
+		judCross[1] = { screenVertices[1].x - screenVertices[2].x, screenVertices[1].y - screenVertices[2].y };
+		Vector3 crossPro = Render::Cross(judCross[1], judCross[0]);
+
+		float dot = Matrix::Dot(cameraPosition, crossPro);
 
 		if (dot <= 0) {
-
+			isDraw = true;
+		}
+		else if(dot > 0){
+			isDraw = false;
 		}
 
 		///
