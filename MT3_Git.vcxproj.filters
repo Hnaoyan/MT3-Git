@@ -14,6 +14,9 @@
     <Filter Include="KamataEngine\Adapter">
       <UniqueIdentifier>{c6468eb4-788b-4a83-b207-a5f4804e56c5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Math">
+      <UniqueIdentifier>{c6ecd78e-60a9-4805-86f4-80b50db09e41}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="C:\KamataEngine\DirectXGame\base\DirectXCommon.cpp">
@@ -44,11 +47,11 @@
     <ClCompile Include="DrawSet.cpp">
       <Filter>KamataEngine</Filter>
     </ClCompile>
-    <ClCompile Include="MathCalc.cpp">
-      <Filter>KamataEngine</Filter>
-    </ClCompile>
     <ClCompile Include="Vector.cpp">
       <Filter>KamataEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="MathCalc.cpp">
+      <Filter>Math</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -123,7 +126,9 @@
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="Render.h" />
     <ClInclude Include="DrawSet.h" />
-    <ClInclude Include="MathCalc.h" />
     <ClInclude Include="Vector.h" />
+    <ClInclude Include="MathCalc.h">
+      <Filter>Math</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
