@@ -23,13 +23,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Matrix* matrix = nullptr;
 	Render* render = nullptr;
 
-	Segment segment{ {-2.0f,-1.0f,0.0f},{3.0f,2.0f,2.0f} };
-	Vector3 point{ -1.5f,0.6f,0.6f };
-
-	Vector3 project = DrawSet::Project(Vector::Subtract(point, segment.origin), segment.diff);
-	Vector3 closestPoint = DrawSet::ClosetPoint(point, segment);
-
-
+	Sphere sphere1;
+	sphere1.center = { 0,25.0f,0 };
+	sphere1.radius = 5.0f;
+	Sphere sphere2;
+	sphere2.center = { 5.0f,-25.0f,0 };
+	sphere2.radius = 10.0f;
 	Vector3 cameraTranslate{ 0.0f,1.9f,-6.49f };
 	Vector3 cameraRotate{ 0.26f,0.0f,0.0f };
 
@@ -53,18 +52,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		Matrix4x4 worldViewProjectionMatrix = Matrix::Multiply(worldMatrix, Matrix::Multiply(viewMatrix, projectionMatrix));
 		Matrix4x4 viewportMatrix = render->MakeViewportMatrix(0, 0, float(kWindowWidth), float(kWindowHeight), 0.0f, 1.0f);
 
-		ImGui::Begin("Debug");
-		float float3[3] = { point.x,point.y,point.z };
-		ImGui::SliderFloat3("point", float3, -7.0f, 7.0f);
-		point = { float3[0],float3[1],float3[2] };
-		ImGui::InputFloat3("SegmentOrigin", &segment.origin.x, "%.3f", ImGuiInputTextFlags_ReadOnly);
-		ImGui::InputFloat3("SegmentDiff", &segment.diff.x, "%.3f", ImGuiInputTextFlags_ReadOnly);
-		ImGui::InputFloat3("project", &project.x, "%.3f", ImGuiInputTextFlags_ReadOnly);
-		ImGui::End();
-
-		Sphere pointSphere{ point,0.01f };
-		Sphere closestPointSphere{ closestPoint,0.01f };
-
+		//ImGui::Begin("Debug");
+		//float float3[3] = { sphere1.center.x,sphere1.center.y,sphere1.center.z };
+		//ImGui::SliderFloat3("Sphere1", float3, -40.0f, 40.0f);
+		//sphere1.center = { float3[0],float3[1],float3[2] };
+		//float float3Sp2[3] = { sphere2.center.x,sphere2.center.y,sphere2.center.z };
+		//ImGui::SliderFloat3("Sphere2", float3Sp2, -40.0f, 40.0f);
+		//sphere2.center = { float3Sp2[0],float3Sp2[1],float3Sp2[2] };
+		//ImGui::End();
 
 
 		///
@@ -77,12 +72,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		DrawSet::DrawGrid(worldViewProjectionMatrix, viewportMatrix);
 
-		Vector3 start = Matrix::ScreenChange(segment.origin, worldViewProjectionMatrix, viewportMatrix);
-		Vector3 end = Matrix::ScreenChange(Vector::Add(segment.origin, segment.diff), worldViewProjectionMatrix, viewportMatrix);
-
-		Novice::DrawLine(int(start.x), int(start.y), int(end.x), int(end.y), WHITE);
-		DrawSet::DrawSphere(pointSphere, worldViewProjectionMatrix, viewportMatrix, RED);
-		DrawSet::DrawSphere(closestPointSphere, worldViewProjectionMatrix, viewportMatrix, BLACK);
+		DrawSet::DrawSphere(sphere1, worldViewProjectionMatrix, viewportMatrix, RED);
+		DrawSet::DrawSphere(sphere2, worldViewProjectionMatrix, viewportMatrix, BLACK);
 
 		///
 		/// ↑描画処理ここまで

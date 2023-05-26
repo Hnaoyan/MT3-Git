@@ -83,15 +83,15 @@ void DrawSet::DrawSphere(const Sphere& sphere, const Matrix4x4& viewProjectionMa
 			};
 
 			b = {
-				sphere.center.x + sphere.radius * std::cosf(lat + (float(M_PI) / kSubdivision)) * std::cosf(lon),
-				sphere.center.y + sphere.radius * std::sinf(lat + (float(M_PI) / kSubdivision)),
-				b.z = sphere.center.z + sphere.radius * std::cosf(lat + (float(M_PI) / kSubdivision)) * std::sinf(lon)
+				sphere.center.x + sphere.radius * std::cosf(lat + kLatEvery) * std::cosf(lon),
+				sphere.center.y + sphere.radius * std::sinf(lat + kLatEvery),
+				b.z = sphere.center.z + sphere.radius * std::cosf(lat + kLatEvery) * std::sinf(lon)
 			};
 
 			c = {
-					sphere.center.x + sphere.radius * std::cosf(lat) * std::cosf(lon + (float(M_PI) * 2.0f / kSubdivision)),
+					sphere.center.x + sphere.radius * std::cosf(lat) * std::cosf(lon + kLonEvery),
 					sphere.center.y + sphere.radius * std::sinf(lat),
-					sphere.center.z + sphere.radius * std::cosf(lat) * std::sinf(lon + (float(M_PI) * 2.0f / kSubdivision))
+					sphere.center.z + sphere.radius * std::cosf(lat) * std::sinf(lon + kLonEvery)
 			};
 
 			ndcA = Matrix::Transform(a, viewProjectionMatrix);
@@ -130,3 +130,15 @@ Vector3 DrawSet::ClosetPoint(const Vector3& point, const Segment& segment) {
 	
 	return result;
 }
+
+bool DrawSet::IsCollision(const Sphere& sp1, const Sphere& sp2) {
+	Sphere sphereDistance = sp1;
+	// 2球体の距離を求める
+	sphereDistance.center = sphereDistance.center - sp2.center;
+	float distance = MathCalc::Length(sphereDistance.center);
+	// 半径の合計よりも短いか
+	if (distance <= sp1.radius + sp2.radius) {
+		return true;
+	}
+	return false;
+ }
