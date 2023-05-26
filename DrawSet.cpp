@@ -2,6 +2,7 @@
 #include <Novice.h>
 #include <cmath>
 #include "MathCalc.h"
+#include "Vector.h"
 
 void DrawSet::DrawGrid(const Matrix4x4& viewProjectionMatrix, const Matrix4x4& viewportMatrix) {
 	const float kGridHalfWidth = 2.0f;	// Gridの半分の幅
@@ -108,6 +109,27 @@ void DrawSet::DrawSphere(const Sphere& sphere, const Matrix4x4& viewProjectionMa
 	}
 }
 
+void DrawSet::DrawPlane(const Plane& plane, const Matrix4x4& viewProjectionMatrix, const Matrix4x4& viewportMatrix, uint32_t color) {
+	Vector3 center = Vector::Multiply(plane.distance, plane.normal);	// 1
+	Vector3 perpendiculars[4];
+	perpendiculars[0] = MathCalc::Normalize(Perpendicular(plane.normal));	// 2
+	perpendiculars[1] = { -perpendiculars[0].x,-perpendiculars[0].y,-perpendiculars[0].z }; // 3
+	perpendiculars[2] = MathCalc::Cross(plane.normal, perpendiculars[0]);	// 4
+	perpendiculars[3] = { -perpendiculars[2].x,-perpendiculars[2].y,-perpendiculars[2].z };	// 5
+	// 6
+	Vector3 points[4];
+	for (int32_t index = 0; index < 4; ++index) {
+		Vector3 extend = Vector::Multiply(2.0f, perpendiculars[index]);
+		Vector3 point = Vector::Add(center, extend);
+		points[index] = Matrix::ScreenChange(point, viewProjectionMatrix, viewportMatrix);
+	}
+	Novice::DrawLine(int(points[0].x), int(points[0].y), int(points[2].x), int(points[2].y), color);
+	Novice::DrawLine(int(points[1].x), int(points[1].y), int(points[2].x), int(points[2].y), color);
+	Novice::DrawLine(int(points[1].x), int(points[1].y), int(points[3].x), int(points[3].y), color);
+	Novice::DrawLine(int(points[0].x), int(points[0].y), int(points[3].x), int(points[3].y), color);
+
+}
+
 Vector3 DrawSet::Project(const Vector3& v1, const Vector3& v2) {
 	Vector3 result;
 
@@ -120,14 +142,12 @@ Vector3 DrawSet::Project(const Vector3& v1, const Vector3& v2) {
 
 Vector3 DrawSet::ClosetPoint(const Vector3& point, const Segment& segment) {
 	Vector3 result;
-	Vector3 projectPoint = point;
-	projectPoint = projectPoint - segment.origin;
+	Vector3 projectPoint;
+	projectPoint = Vector::Subtract(point, segment.origin);
 	Vector3 project = Project(projectPoint, segment.diff);
 
-	result.x = segment.origin.x + project.x;
-	result.y = segment.origin.y + project.y;
-	result.z = segment.origin.z + project.z;
-	
+	result = Vector::Add(segment.origin, project);
+
 	return result;
 }
 
@@ -148,18 +168,19 @@ bool DrawSet::IsCollision(const Sphere& sp1, const Plane& plane) {
 	// 2球体の距離を求める
 
 	sphereDistance.center = sphereDistance.center - plane.normal;
-	float distance = MathCalc::Length(sphereDistance.center);
+	float distance=
+	distance = MathCalc::Length(sphereDistance.center);
 	// 半径の合計よりも短いか
-	if (distance <= sp1.radius + sp2.radius) {
-		return true;
-	}
+	//if (distance <= sp1.radius + sp2.radius) {
+	//	return true;
+	//}
 	return false;
 }
 
 Vector3 DrawSet::Perpendicular(const Vector3& vector) {
 	if (vector.x != 0.0f || vector.y != 0.0f) {
-
+		return { -vector.y,vector.x,0.0f };
 	}
-
+	return { 0.0f,-vector.z,vector.y };
 
 }

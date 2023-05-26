@@ -35,6 +35,7 @@ class DrawSet
 public:
 	static void DrawGrid(const Matrix4x4& viewProjectionMatrix, const Matrix4x4& viewportMatrix);
 	static void DrawSphere(const Sphere& sphere, const Matrix4x4& viewProjectionMatrix, const Matrix4x4& viewportMatrix, uint32_t color);
+	static void DrawPlane(const Plane& plane, const Matrix4x4& viewProjectionMatrix, const Matrix4x4& viewportMatrix, uint32_t color);
 
 	static Vector3 Project(const Vector3& v1, const Vector3& v2);
 	static Vector3 ClosetPoint(const Vector3& point, const Segment& segment);

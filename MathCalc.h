@@ -19,5 +19,7 @@ public:
 
 	static Vector2 Normalize(const Vector2& v);
 	static Vector3 Normalize(const Vector3& v);
+	static float Clamp(const float& min, const float& max, const float& t);
+
 };
 

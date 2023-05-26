@@ -3,7 +3,6 @@
 #include "Matrix.h"
 #include "Render.h"
 #include "ImGuiManager.h"
-#include "Vector.h"
 
 const char kWindowTitle[] = "学籍番号";
 const int kWindowWidth = 1280;
@@ -24,14 +23,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Render* render = nullptr;
 
 	Sphere sphere1;
-	sphere1.center = { -10.0f,-25.0f,85.0f };
+	sphere1.center = { 0.0f,-20.0f,60.0f };
 	sphere1.radius = 5.0f;
-	Sphere sphere2;
-	sphere2.center = { 15.0f,-25.0f,85.0f };
-	sphere2.radius = 10.0f;
 	Vector3 cameraTranslate{ 0.0f,1.9f,-6.49f };
 	Vector3 cameraRotate{ 0.26f,0.0f,0.0f };
 	unsigned int color = BLACK;
+
+	Plane plane;
+	plane.normal = { 0.0f,1.0f,0.0f };
+	plane.distance = 1.0f;
 
 	// ウィンドウの×ボタンが押されるまでループ
 	while (Novice::ProcessMessage() == 0) {
@@ -57,17 +57,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		float float3[3] = { sphere1.center.x,sphere1.center.y,sphere1.center.z };
 		ImGui::SliderFloat3("Sphere1", float3, -40.0f, 40.0f);
 		sphere1.center = { float3[0],float3[1],float3[2] };
-		float float3Sp2[3] = { sphere2.center.x,sphere2.center.y,sphere2.center.z };
-		ImGui::SliderFloat3("Sphere2", float3Sp2, -40.0f, 40.0f);
-		sphere2.center = { float3Sp2[0],float3Sp2[1],float3Sp2[2] };
 		ImGui::End();
 
-		if (DrawSet::IsCollision(sphere1, sphere2)) {
-			color = RED;
-		}
-		else {
-			color = BLACK;
-		}
+		//if (DrawSet::IsCollision(sphere1, sphere2)) {
+		//	color = RED;
+		//}
+		//else {
+		//	color = BLACK;
+		//}
 
 		///
 		/// ↑更新処理ここまで
@@ -78,9 +75,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		///
 
 		DrawSet::DrawGrid(worldViewProjectionMatrix, viewportMatrix);
-
+		DrawSet::DrawPlane(plane, worldViewProjectionMatrix, viewportMatrix, WHITE);
 		DrawSet::DrawSphere(sphere1, worldViewProjectionMatrix, viewportMatrix, color);
-		DrawSet::DrawSphere(sphere2, worldViewProjectionMatrix, viewportMatrix, BLACK);
 
 		///
 		/// ↑描画処理ここまで

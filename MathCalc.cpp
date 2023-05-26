@@ -60,3 +60,13 @@ Vector3 MathCalc::Cross(const Vector3& v1, const Vector3& v2) {
 		(v1.x * v2.y - v1.y * v2.x) };
 	return result;
 }
+
+float MathCalc::Clamp(const float& min, const float& max, const float& t) {
+	if (t > max) {
+		return max;
+	}
+	else if (t < min) {
+		return min;
+	}
+	return t;
+}
