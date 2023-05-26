@@ -25,6 +25,11 @@ struct Segment {
 	Vector3 diff;	// 終点への差分ベクトル
 };
 
+struct Plane {
+	Vector3 normal;	// 法線
+	float distance;	// 距離
+};
+
 class DrawSet
 {
 public:
@@ -35,5 +40,8 @@ public:
 	static Vector3 ClosetPoint(const Vector3& point, const Segment& segment);
 	
 	static bool IsCollision(const Sphere& sp1, const Sphere& sp2);
+	static bool IsCollision(const Sphere& sp1, const Plane& plane);
+
+	static Vector3 Perpendicular(const Vector3& vector);
 
 };
