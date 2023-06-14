@@ -151,32 +151,6 @@ Vector3 DrawSet::ClosetPoint(const Vector3& point, const Segment& segment) {
 	return result;
 }
 
-bool DrawSet::IsCollision(const Sphere& sp1, const Sphere& sp2) {
-	Sphere sphereDistance = sp1;
-	// 2球体の距離を求める
-	sphereDistance.center = sphereDistance.center - sp2.center;
-	float distance = MathCalc::Length(sphereDistance.center);
-	// 半径の合計よりも短いか
-	if (distance <= sp1.radius + sp2.radius) {
-		return true;
-	}
-	return false;
- }
-
-bool DrawSet::IsCollision(const Sphere& sp1, const Plane& plane) {
-	Sphere sphereDistance = sp1;
-	// 2球体の距離を求める
-
-	sphereDistance.center = sphereDistance.center - plane.normal;
-	float distance=
-	distance = MathCalc::Length(sphereDistance.center);
-	// 半径の合計よりも短いか
-	//if (distance <= sp1.radius + sp2.radius) {
-	//	return true;
-	//}
-	return false;
-}
-
 Vector3 DrawSet::Perpendicular(const Vector3& vector) {
 	if (vector.x != 0.0f || vector.y != 0.0f) {
 		return { -vector.y,vector.x,0.0f };

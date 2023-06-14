@@ -16,6 +16,7 @@ public:
 
 	// 距離
 	static float Distance(const Vector2& v1, const Vector2& v2);
+	static float Distance(const Vector3& v1, const Vector3& v2);
 
 	static Vector2 Normalize(const Vector2& v);
 	static Vector3 Normalize(const Vector3& v);

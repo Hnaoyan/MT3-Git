@@ -30,6 +30,13 @@ float MathCalc::Distance(const Vector2& v1, const Vector2& v2) {
 	return result;
 }
 
+float MathCalc::Distance(const Vector3& v1, const Vector3& v2) {
+	float result;
+	Vector3 distace = { v1.x - v2.x,v1.y - v2.y,v1.z - v2.z };
+	result = sqrt(powf(distace.x, 2) + powf(distace.y, 2) + powf(distace.y, 2));
+	return result;
+}
+
 Vector2 MathCalc::Normalize(const Vector2& v) {
 	Vector2 result{};
 	float length = Length(v);

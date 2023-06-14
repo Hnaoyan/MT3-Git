@@ -3,6 +3,8 @@
 #include "Matrix.h"
 #include "Render.h"
 #include "ImGuiManager.h"
+#include "MathCalc.h"
+#include "Collision.h"
 
 const char kWindowTitle[] = "学籍番号";
 const int kWindowWidth = 1280;
@@ -23,8 +25,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Render* render = nullptr;
 
 	Sphere sphere1;
-	sphere1.center = { 0.0f,-20.0f,60.0f };
-	sphere1.radius = 5.0f;
+	sphere1.center = { 0.0f,0.0f,0.0f };
+	sphere1.radius = 0.8f;
 	Vector3 cameraTranslate{ 0.0f,1.9f,-6.49f };
 	Vector3 cameraRotate{ 0.26f,0.0f,0.0f };
 	unsigned int color = BLACK;
@@ -54,17 +56,22 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		Matrix4x4 viewportMatrix = render->MakeViewportMatrix(0, 0, float(kWindowWidth), float(kWindowHeight), 0.0f, 1.0f);
 
 		ImGui::Begin("Debug");
-		float float3[3] = { sphere1.center.x,sphere1.center.y,sphere1.center.z };
-		ImGui::SliderFloat3("Sphere1", float3, -40.0f, 40.0f);
-		sphere1.center = { float3[0],float3[1],float3[2] };
+		//float float3[3] = { sphere1.center.x,sphere1.center.y,sphere1.center.z };
+		//ImGui::SliderFloat3("Sphere1", float3, -40.0f, 40.0f);
+		ImGui::DragFloat3("sph", &sphere1.center.x, 0.1f, -3.0f, 3.0f);
+		//sphere1.center = { float3[0],float3[1],float3[2] };
+		ImGui::DragFloat("radius", &sphere1.radius, 0.01f);
+		ImGui::DragFloat3("Plane.Normal", &plane.normal.x, 0.01f);
+		plane.normal = MathCalc::Normalize(plane.normal);
+
 		ImGui::End();
 
-		//if (DrawSet::IsCollision(sphere1, sphere2)) {
-		//	color = RED;
-		//}
-		//else {
-		//	color = BLACK;
-		//}
+		if (Collision::IsCollision(sphere1,plane)) {
+			color = RED;
+		}
+		else {
+			color = BLACK;
+		}
 
 		///
 		/// ↑更新処理ここまで

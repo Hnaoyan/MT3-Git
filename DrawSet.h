@@ -40,9 +40,6 @@ public:
 	static Vector3 Project(const Vector3& v1, const Vector3& v2);
 	static Vector3 ClosetPoint(const Vector3& point, const Segment& segment);
 	
-	static bool IsCollision(const Sphere& sp1, const Sphere& sp2);
-	static bool IsCollision(const Sphere& sp1, const Plane& plane);
-
 	static Vector3 Perpendicular(const Vector3& vector);
 
 };
