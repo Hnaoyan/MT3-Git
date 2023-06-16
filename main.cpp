@@ -5,6 +5,7 @@
 #include "ImGuiManager.h"
 #include "MathCalc.h"
 #include "Collision.h"
+#include "Vector.h"
 
 const char kWindowTitle[] = "学籍番号";
 const int kWindowWidth = 1280;
@@ -24,9 +25,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Matrix* matrix = nullptr;
 	Render* render = nullptr;
 
-	Sphere sphere1;
-	sphere1.center = { 0.0f,0.0f,0.0f };
-	sphere1.radius = 0.8f;
+	Segment segment;
+	segment.diff = { 1.0f,0.5f,0.0f };
+	segment.origin = { -0.6f,0.5f,0.0f };
+
 	Vector3 cameraTranslate{ 0.0f,1.9f,-6.49f };
 	Vector3 cameraRotate{ 0.26f,0.0f,0.0f };
 	unsigned int color = BLACK;
@@ -56,22 +58,26 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		Matrix4x4 viewportMatrix = render->MakeViewportMatrix(0, 0, float(kWindowWidth), float(kWindowHeight), 0.0f, 1.0f);
 
 		ImGui::Begin("Debug");
-		//float float3[3] = { sphere1.center.x,sphere1.center.y,sphere1.center.z };
-		//ImGui::SliderFloat3("Sphere1", float3, -40.0f, 40.0f);
-		ImGui::DragFloat3("sph", &sphere1.center.x, 0.1f, -3.0f, 3.0f);
-		//sphere1.center = { float3[0],float3[1],float3[2] };
-		ImGui::DragFloat("radius", &sphere1.radius, 0.01f);
+		ImGui::DragFloat3("camera.center", &cameraTranslate.x, 0.01f, -7.0f, 7.0f);
+		ImGui::DragFloat3("camera.rotate", &cameraRotate.x, 0.01f, -3.0f, 3.0f);
+		ImGui::DragFloat3("segment.Origin", &segment.origin.x, 0.01f, -1.0f, 1.0f);
+		ImGui::DragFloat3("segment.Diff", &segment.diff.x, 0.01f, -1.0f, 1.0f);
 		ImGui::DragFloat3("Plane.Normal", &plane.normal.x, 0.01f);
+		ImGui::DragFloat("Plane.Distance", &plane.distance, 0.01f, -1.0f, 1.0f);
 		plane.normal = MathCalc::Normalize(plane.normal);
 
 		ImGui::End();
 
-		if (Collision::IsCollision(sphere1,plane)) {
+		if (Collision::IsCollision(segment,plane)) {
 			color = RED;
 		}
 		else {
-			color = BLACK;
+			color = WHITE;
 		}
+
+		Vector3 start = Matrix::Transform(Matrix::Transform(segment.origin, worldViewProjectionMatrix), viewportMatrix);
+		Vector3 end = Matrix::Transform(Matrix::Transform(Vector::Add(segment.origin, segment.diff), worldViewProjectionMatrix), viewportMatrix);
+
 
 		///
 		/// ↑更新処理ここまで
@@ -83,7 +89,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		DrawSet::DrawGrid(worldViewProjectionMatrix, viewportMatrix);
 		DrawSet::DrawPlane(plane, worldViewProjectionMatrix, viewportMatrix, WHITE);
-		DrawSet::DrawSphere(sphere1, worldViewProjectionMatrix, viewportMatrix, color);
+
+		Novice::DrawLine(int(start.x), int(start.y), int(end.x), int(end.y), color);
 
 		///
 		/// ↑描画処理ここまで

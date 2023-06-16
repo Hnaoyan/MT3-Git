@@ -27,3 +27,20 @@ bool Collision::IsCollision(const Sphere& sp1, const Plane& plane) {
 	}
 	return false;
 }
+
+bool Collision::IsCollision(const Segment& segment, const Plane& plane) {
+	// 法線と線の内積
+	float dot = MathCalc::Dot(plane.normal, segment.diff);
+
+	// 
+	if (dot == 0.0f) {
+		return false;
+	}
+	// tを求める
+	float t = (plane.distance - MathCalc::Dot(segment.origin, plane.normal)) / dot;
+
+	if (t > 0 && t < 1) { 
+		return true;
+	}
+	return false;
+}
