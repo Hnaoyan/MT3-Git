@@ -44,3 +44,41 @@ bool Collision::IsCollision(const Segment& segment, const Plane& plane) {
 	}
 	return false;
 }
+
+bool Collision::IsCollision(const Triangle& triangle, const Segment& segment) {
+
+	Vector3 v01 = Vector::Subtract(triangle.vertices[1], triangle.vertices[0]);
+	Vector3 v12 = Vector::Subtract(triangle.vertices[2], triangle.vertices[1]);
+	Vector3 v20 = Vector::Subtract(triangle.vertices[0], triangle.vertices[2]);
+
+	Vector3 crossNormal = MathCalc::Cross(v01, v12);
+	Vector3 Normal = MathCalc::Normalize(crossNormal);
+	float crossDis = MathCalc::Dot(Normal, triangle.vertices[0]);
+
+	float dot = MathCalc::Dot(Normal, segment.diff);
+
+	if (dot == 0.0f) {
+		return false;
+	}
+
+	float t = (crossDis - MathCalc::Dot(segment.origin, Normal)) / dot;
+	if (0.0f < t && t < 1.0f) {
+
+		Vector3 point = Vector::Add(segment.origin, Vector::Multiply(t, segment.diff));
+
+		Vector3 v1p = Vector::Subtract(point, triangle.vertices[1]);
+		Vector3 v2p = Vector::Subtract(point, triangle.vertices[2]);
+		Vector3 v0p = Vector::Subtract(point, triangle.vertices[0]);
+
+		Vector3 cross01 = MathCalc::Cross(v01, v1p);
+		Vector3 cross12 = MathCalc::Cross(v12, v2p);
+		Vector3 cross20 = MathCalc::Cross(v20, v0p);
+
+		if (MathCalc::Dot(cross01, Normal) >= 0.0f &&
+			MathCalc::Dot(cross12, Normal) >= 0.0f &&
+			MathCalc::Dot(cross20, Normal) >= 0.0f) {
+			return true;
+		}
+	}
+	return false;
+}

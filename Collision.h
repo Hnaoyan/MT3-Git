@@ -11,6 +11,7 @@ public:
 	/// <param name="sp2"></param>
 	/// <returns></returns>
 	static bool IsCollision(const Sphere& sp1, const Sphere& sp2);
+
 	/// <summary>
 	/// 球と平面の衝突判定
 	/// </summary>
@@ -18,6 +19,7 @@ public:
 	/// <param name="plane"></param>
 	/// <returns></returns>
 	static bool IsCollision(const Sphere& sp1, const Plane& plane);
+
 	/// <summary>
 	/// 線と平面の衝突判定
 	/// </summary>
@@ -26,5 +28,12 @@ public:
 	/// <returns></returns>
 	static bool IsCollision(const Segment& segment, const Plane& plane);
 
+	/// <summary>
+	/// 線と三角形の衝突判定
+	/// </summary>
+	/// <param name="triangle"></param>
+	/// <param name="segment"></param>
+	/// <returns></returns>
+	static bool IsCollision(const Triangle& triangle, const Segment& segment);
 };
 

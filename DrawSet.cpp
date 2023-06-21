@@ -130,6 +130,15 @@ void DrawSet::DrawPlane(const Plane& plane, const Matrix4x4& viewProjectionMatri
 
 }
 
+void DrawSet::DrawTriangle(const Triangle& triangle, const Matrix4x4& viewProjectionMatrix, const Matrix4x4& viewportMatrix, uint32_t color) {
+	Vector3 screenVerities[3];
+	for (int i = 0; i < 3; i++) {
+		screenVerities[i] = Matrix::Transform(Matrix::Transform(triangle.vertices[i], viewProjectionMatrix), viewportMatrix);
+	}
+	Novice::DrawTriangle(int(screenVerities[0].x), int(screenVerities[0].y), int(screenVerities[1].x), int(screenVerities[1].y),
+		int(screenVerities[2].x), int(screenVerities[2].y), color, kFillModeWireFrame);
+}
+
 Vector3 DrawSet::Project(const Vector3& v1, const Vector3& v2) {
 	Vector3 result;
 
