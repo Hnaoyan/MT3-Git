@@ -89,6 +89,5 @@ bool Collision::IsAABBCollision(const AABB& aabb1, const AABB& aabb2) {
 		(aabb1.min.z <= aabb2.max.z && aabb1.max.z >= aabb2.min.z)) {	// Z軸
 		return true;
 	}
-
 	return false;
 }
