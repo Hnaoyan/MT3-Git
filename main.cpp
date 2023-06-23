@@ -33,12 +33,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		.min{-0.5,-0.5f,-0.5f},
 		.max{0.0f,0.0f,0.0f}
 	};
-	AABB aabb2{
-		.min{0.2f,0.2f,0.2f},
-		.max{1.0f,1.0f,1.0f}
-	};
 
-	aabb2 = aabb1;
+	Sphere sphere{
+		.center{1.0f,1.0f,1.0f},
+		.radius{1.0f}
+	};
 
 	// ウィンドウの×ボタンが押されるまでループ
 	while (Novice::ProcessMessage() == 0) {
@@ -65,8 +64,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		ImGui::DragFloat3("camera.rotate", &cameraRotate.x, 0.01f, -3.0f, 3.0f);
 		ImGui::DragFloat3("aabb1.min", &aabb1.min.x, 0.01f, -10.0f, 10.0f);
 		ImGui::DragFloat3("aabb1.max", &aabb1.max.x, 0.01f, -10.0f, 10.0f);
-		ImGui::DragFloat3("aabb2.min", &aabb2.min.x, 0.01f, -10.0f, 10.0f);
-		ImGui::DragFloat3("aabb2.max", &aabb2.max.x, 0.01f, -10.0f, 10.0f);
+		ImGui::DragFloat3("sphere.center", &sphere.center.x, 0.01f, -5.0f, 5.0f);
+		ImGui::DragFloat("sphere.radius", &sphere.radius, 0.01f, -3.0f, 3.0f);
 		ImGui::End();
 
 		aabb1.min.x = (std::min)(aabb1.min.x, aabb1.max.x);
@@ -76,15 +75,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		aabb1.min.z = (std::min)(aabb1.min.z, aabb1.max.z);
 		aabb1.max.z = (std::max)(aabb1.min.z, aabb1.max.z);
 
-		aabb2.min.x = (std::min)(aabb2.min.x, aabb2.max.x);
-		aabb2.max.x = (std::max)(aabb2.min.x, aabb2.max.x);
-		aabb2.min.y = (std::min)(aabb2.min.y, aabb2.max.y);
-		aabb2.max.y = (std::max)(aabb2.min.y, aabb2.max.y);
-		aabb2.min.z = (std::min)(aabb2.min.z, aabb2.max.z);
-		aabb2.max.z = (std::max)(aabb2.min.z, aabb2.max.z);
 
 
-		if (Collision::IsAABBCollision(aabb1,aabb2)) {
+		if (Collision::IsCollision(aabb1,sphere)) {
 			color = RED;
 		}
 		else {
@@ -103,8 +96,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		DrawSet::DrawGrid(worldViewProjectionMatrix, viewportMatrix);
 
+		DrawSet::DrawSphere(sphere, worldViewProjectionMatrix, viewportMatrix, color);
 		DrawSet::DrawAABB(aabb1, worldViewProjectionMatrix, viewportMatrix, color);
-		DrawSet::DrawAABB(aabb2, worldViewProjectionMatrix, viewportMatrix, color);
 
 		///
 		/// ↑描画処理ここまで

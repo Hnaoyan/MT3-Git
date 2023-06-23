@@ -37,5 +37,7 @@ public:
 	static bool IsCollision(const Triangle& triangle, const Segment& segment);
 
 	static bool IsAABBCollision(const AABB& aabb1, const AABB& aabb2);
+
+	static bool IsCollision(const AABB& aabb, const Sphere& sphere);
 };
 
