@@ -35,5 +35,7 @@ public:
 	/// <param name="segment"></param>
 	/// <returns></returns>
 	static bool IsCollision(const Triangle& triangle, const Segment& segment);
+
+	static bool IsAABBCollision(const AABB& aabb1, const AABB& aabb2);
 };
 

@@ -125,8 +125,8 @@ void DrawSet::DrawPlane(const Plane& plane, const Matrix4x4& viewProjectionMatri
 	}
 	Novice::DrawLine(int(points[0].x), int(points[0].y), int(points[2].x), int(points[2].y), color);
 	Novice::DrawLine(int(points[1].x), int(points[1].y), int(points[2].x), int(points[2].y), color);
-	Novice::DrawLine(int(points[1].x), int(points[1].y), int(points[3].x), int(points[3].y), color);
 	Novice::DrawLine(int(points[0].x), int(points[0].y), int(points[3].x), int(points[3].y), color);
+	Novice::DrawLine(int(points[1].x), int(points[1].y), int(points[3].x), int(points[3].y), color);
 
 }
 
@@ -137,6 +137,45 @@ void DrawSet::DrawTriangle(const Triangle& triangle, const Matrix4x4& viewProjec
 	}
 	Novice::DrawTriangle(int(screenVerities[0].x), int(screenVerities[0].y), int(screenVerities[1].x), int(screenVerities[1].y),
 		int(screenVerities[2].x), int(screenVerities[2].y), color, kFillModeWireFrame);
+}
+
+void DrawSet::DrawAABB(const AABB& aabb, const Matrix4x4& viewProjectionMatrix, const Matrix4x4& viewportMatrix, uint32_t color) {
+	Vector3 wolrdPoint[8];
+	Vector3 screenPoint[8];
+	// 手前
+	wolrdPoint[0] = { aabb.min.x,aabb.min.y,aabb.min.z };
+	wolrdPoint[1] = { aabb.min.x,aabb.max.y,aabb.min.z };
+	wolrdPoint[2] = { aabb.max.x,aabb.max.y,aabb.min.z };
+	wolrdPoint[3] = { aabb.max.x,aabb.min.y,aabb.min.z };
+
+	// 奥
+	wolrdPoint[4] = { aabb.min.x,aabb.min.y,aabb.max.z };
+	wolrdPoint[5] = { aabb.min.x,aabb.max.y,aabb.max.z };
+	wolrdPoint[6] = { aabb.max.x,aabb.max.y,aabb.max.z };
+	wolrdPoint[7] = { aabb.max.x,aabb.min.y,aabb.max.z };
+
+	for (int i = 0; i < 8; i++) {
+		screenPoint[i] = Matrix::Transform(Matrix::Transform(wolrdPoint[i], viewProjectionMatrix), viewportMatrix);
+	}
+
+	// 手前
+	Novice::DrawLine(int(screenPoint[0].x), int(screenPoint[0].y), int(screenPoint[1].x), int(screenPoint[1].y), color);
+	Novice::DrawLine(int(screenPoint[1].x), int(screenPoint[1].y), int(screenPoint[2].x), int(screenPoint[2].y), color);
+	Novice::DrawLine(int(screenPoint[2].x), int(screenPoint[2].y), int(screenPoint[3].x), int(screenPoint[3].y), color);
+	Novice::DrawLine(int(screenPoint[3].x), int(screenPoint[3].y), int(screenPoint[0].x), int(screenPoint[0].y), color);
+
+	// 奥
+	Novice::DrawLine(int(screenPoint[4].x), int(screenPoint[4].y), int(screenPoint[5].x), int(screenPoint[5].y), color);
+	Novice::DrawLine(int(screenPoint[5].x), int(screenPoint[5].y), int(screenPoint[6].x), int(screenPoint[6].y), color);
+	Novice::DrawLine(int(screenPoint[6].x), int(screenPoint[6].y), int(screenPoint[7].x), int(screenPoint[7].y), color);
+	Novice::DrawLine(int(screenPoint[7].x), int(screenPoint[7].y), int(screenPoint[4].x), int(screenPoint[4].y), color);
+
+	// 手前から奥
+	Novice::DrawLine(int(screenPoint[0].x), int(screenPoint[0].y), int(screenPoint[4].x), int(screenPoint[4].y), color);
+	Novice::DrawLine(int(screenPoint[1].x), int(screenPoint[1].y), int(screenPoint[5].x), int(screenPoint[5].y), color);
+	Novice::DrawLine(int(screenPoint[2].x), int(screenPoint[2].y), int(screenPoint[6].x), int(screenPoint[6].y), color);
+	Novice::DrawLine(int(screenPoint[3].x), int(screenPoint[3].y), int(screenPoint[7].x), int(screenPoint[7].y), color);
+
 }
 
 Vector3 DrawSet::Project(const Vector3& v1, const Vector3& v2) {

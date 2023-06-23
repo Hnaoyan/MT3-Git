@@ -34,6 +34,11 @@ struct Triangle {
 	Vector3 vertices[3];
 };
 
+struct AABB {
+	Vector3 min;	// 最小点
+	Vector3 max;	// 最大点
+};
+
 class DrawSet
 {
 public:
@@ -68,6 +73,15 @@ public:
 	/// <param name="viewportMatrix"></param>
 	/// <param name="color"></param>
 	static void DrawTriangle(const Triangle& triangle, const Matrix4x4& viewProjectionMatrix, const Matrix4x4& viewportMatrix, uint32_t color);
+
+	/// <summary>
+	/// AABB描画
+	/// </summary>
+	/// <param name="aabb"></param>
+	/// <param name="viewProjectionMatrix"></param>
+	/// <param name="viewportMatrix"></param>
+	/// <param name="color"></param>
+	static void DrawAABB(const AABB& aabb, const Matrix4x4& viewProjectionMatrix, const Matrix4x4& viewportMatrix, uint32_t color);
 
 	static Vector3 Project(const Vector3& v1, const Vector3& v2);
 	static Vector3 ClosetPoint(const Vector3& point, const Segment& segment);
