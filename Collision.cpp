@@ -108,3 +108,35 @@ bool Collision::IsCollision(const AABB& aabb, const Sphere& sphere) {
 
 	return false;
 }
+
+bool Collision::IsCollision(const AABB& aabb, const Segment& segment) {
+	// AABBとの衝突点（貫通点）のtが小さいほう
+	Vector3 txMin = { (aabb.min.x - segment.origin.x) / segment.diff.x,
+	(aabb.min.y - segment.origin.y) / segment.diff.y ,
+	(aabb.min.z - segment.origin.z) / segment.diff.z };
+
+	Vector3 txMax = { (aabb.max.x - segment.origin.x) / segment.diff.x,
+	(aabb.max.y - segment.origin.y) / segment.diff.y ,
+	(aabb.max.z - segment.origin.z) / segment.diff.z };
+
+	Vector3 tNear = { std::min(txMin.x,txMax.x),std::min(txMin.y,txMax.y) ,std::min(txMin.z,txMax.z) };
+	Vector3 tFar = { std::max(txMin.x,txMax.x),std::max(txMin.y,txMax.y) ,std::max(txMin.z,txMax.z) };
+
+	float tmin = std::max(std::max(tNear.x, tNear.y), tNear.z);
+	float tmax = std::min(std::min(tFar.x, tFar.y), tFar.z);
+
+	if (tmax < 0.0f || tmin > tmax) {
+		return false;
+	}
+
+	if (segment.origin.x >= txMin.x && segment.origin.y >= txMin.y && segment.origin.z >= txMin.z &&
+		segment.origin.x <= txMax.x && segment.origin.y <= txMax.y && segment.origin.z <= txMax.z) {
+		return true;
+	}
+
+	if (tmin <= tmax) {
+		return true;
+	}
+
+	return false;
+}

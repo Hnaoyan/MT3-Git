@@ -36,8 +36,28 @@ public:
 	/// <returns></returns>
 	static bool IsCollision(const Triangle& triangle, const Segment& segment);
 
+	/// <summary>
+	/// AABB同士の衝突判定
+	/// </summary>
+	/// <param name="aabb1"></param>
+	/// <param name="aabb2"></param>
+	/// <returns></returns>
 	static bool IsAABBCollision(const AABB& aabb1, const AABB& aabb2);
 
+	/// <summary>
+	/// AABBと球の衝突判定
+	/// </summary>
+	/// <param name="aabb"></param>
+	/// <param name="sphere"></param>
+	/// <returns></returns>
 	static bool IsCollision(const AABB& aabb, const Sphere& sphere);
+
+	/// <summary>
+	/// AABBと線の衝突判定
+	/// </summary>
+	/// <param name="aabb"></param>
+	/// <param name="segment"></param>
+	/// <returns></returns>
+	static bool IsCollision(const AABB& aabb, const Segment& segment);
 };
 
