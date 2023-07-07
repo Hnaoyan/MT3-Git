@@ -29,16 +29,17 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Vector3 cameraRotate{ 0.26f,0.0f,0.0f };
 	unsigned int color = BLACK;
 
-	AABB aabb1{
-		.min{-0.5,-0.5f,-0.5f},
-		.max{0.5f,0.5f,0.5f}
+	Vector3 controlPoints[3] = {
+		{-0.8f,0.58f,1.0f},
+		{1.76f,1.0f,-0.3f},
+		{0.94f,-0.7f,2.3f}
 	};
 
-	Segment segment{
-		.origin{-0.7f,0.3f,0.0f},
-		.diff{2.0f,-0.5f,0.0f}
+	Sphere controlPointsSp[3] = {
+		{.center = controlPoints[0],.radius = 0.01f},
+		{.center = controlPoints[1],.radius = 0.01f},
+		{.center = controlPoints[2],.radius = 0.01f}
 	};
-
 
 	// ウィンドウの×ボタンが押されるまでループ
 	while (Novice::ProcessMessage() == 0) {
@@ -63,30 +64,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		ImGui::Begin("Debug");
 		ImGui::DragFloat3("camera.center", &cameraTranslate.x, 0.01f, -7.0f, 7.0f);
 		ImGui::DragFloat3("camera.rotate", &cameraRotate.x, 0.01f, -3.0f, 3.0f);
-		ImGui::DragFloat3("aabb1.min", &aabb1.min.x, 0.01f, -10.0f, 10.0f);
-		ImGui::DragFloat3("aabb1.max", &aabb1.max.x, 0.01f, -10.0f, 10.0f);
-		ImGui::DragFloat3("segment.diff", &segment.diff.x, 0.01f, -5.0f, 5.0f);
-		ImGui::DragFloat3("segment.origin", &segment.origin.x, 0.01f, -5.0f, 5.0f);
+		ImGui::DragFloat3("cPoint0", &controlPoints[0].x, 0.01f, -5.0f, 5.0f);
+		ImGui::DragFloat3("cPoint1", &controlPoints[1].x, 0.01f, -5.0f, 5.0f);
+		ImGui::DragFloat3("cPoint2", &controlPoints[2].x, 0.01f, -5.0f, 5.0f);
+
 		ImGui::End();
 
-		aabb1.min.x = (std::min)(aabb1.min.x, aabb1.max.x);
-		aabb1.max.x = (std::max)(aabb1.min.x, aabb1.max.x);
-		aabb1.min.y = (std::min)(aabb1.min.y, aabb1.max.y);
-		aabb1.max.y = (std::max)(aabb1.min.y, aabb1.max.y);
-		aabb1.min.z = (std::min)(aabb1.min.z, aabb1.max.z);
-		aabb1.max.z = (std::max)(aabb1.min.z, aabb1.max.z);
-
-
-
-		if (Collision::IsCollision(aabb1,segment)) {
-			color = RED;
+		for (int i = 0; i < 3; i++) {
+			controlPointsSp[i].center = controlPoints[i];
 		}
-		else {
-			color = WHITE;
-		}
-
-		Vector3 start = Matrix::Transform(Matrix::Transform(segment.origin, worldViewProjectionMatrix), viewportMatrix);
-		Vector3 end = Matrix::Transform(Matrix::Transform(Vector::Add(segment.origin, segment.diff), worldViewProjectionMatrix), viewportMatrix);
 
 		///
 		/// ↑更新処理ここまで
@@ -98,9 +84,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		DrawSet::DrawGrid(worldViewProjectionMatrix, viewportMatrix);
 
-		Novice::DrawLine(int(start.x), int(start.y), int(end.x), int(end.y), WHITE);
+		for (int i = 0; i < 3; i++) {
+			DrawSet::DrawSphere(controlPointsSp[i], worldViewProjectionMatrix, viewportMatrix, BLACK);
+		}
 
-		DrawSet::DrawAABB(aabb1, worldViewProjectionMatrix, viewportMatrix, color);
+		DrawSet::DrawBezier(controlPoints[0], controlPoints[1], controlPoints[2], worldViewProjectionMatrix, viewportMatrix, BLUE);
+
 
 		///
 		/// ↑描画処理ここまで

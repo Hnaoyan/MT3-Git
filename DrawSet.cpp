@@ -3,6 +3,7 @@
 #include <cmath>
 #include "MathCalc.h"
 #include "Vector.h"
+#include "Bezier.h"
 
 void DrawSet::DrawGrid(const Matrix4x4& viewProjectionMatrix, const Matrix4x4& viewportMatrix) {
 	const float kGridHalfWidth = 2.0f;	// Gridの半分の幅
@@ -175,6 +176,28 @@ void DrawSet::DrawAABB(const AABB& aabb, const Matrix4x4& viewProjectionMatrix, 
 	Novice::DrawLine(int(screenPoint[1].x), int(screenPoint[1].y), int(screenPoint[5].x), int(screenPoint[5].y), color);
 	Novice::DrawLine(int(screenPoint[2].x), int(screenPoint[2].y), int(screenPoint[6].x), int(screenPoint[6].y), color);
 	Novice::DrawLine(int(screenPoint[3].x), int(screenPoint[3].y), int(screenPoint[7].x), int(screenPoint[7].y), color);
+
+}
+
+void DrawSet::DrawBezier(const Vector3& controlPoint0, const Vector3& controlPoint1, const Vector3& controlPoint2, const Matrix4x4& viewProjectionMatrix, const Matrix4x4& viewportMatrix, uint32_t color)
+{
+	int pointIndex = 32;
+	float t[2] = {};
+	Vector3 bPoint[2] = {};
+	Vector3 scPoint[2] = {};
+
+	for (int i = 0; i < pointIndex; i++) {
+		t[0] = float(i) / float(pointIndex);
+		t[1] = float(i + 1) / float(pointIndex);
+		bPoint[0] = Bezier::BezierPoint(controlPoint2, controlPoint1, controlPoint0, t[0]);
+		bPoint[1] = Bezier::BezierPoint(controlPoint2, controlPoint1, controlPoint0, t[1]);
+
+		scPoint[0] = Matrix::Transform(Matrix::Transform(bPoint[0], viewProjectionMatrix), viewportMatrix);
+		scPoint[1] = Matrix::Transform(Matrix::Transform(bPoint[1], viewProjectionMatrix), viewportMatrix);
+
+		Novice::DrawLine(int(scPoint[0].x), int(scPoint[0].y), int(scPoint[1].x), int(scPoint[1].y), color);
+
+	}
 
 }
 

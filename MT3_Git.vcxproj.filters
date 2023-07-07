@@ -14,17 +14,35 @@
     <Filter Include="KamataEngine\Adapter">
       <UniqueIdentifier>{c6468eb4-788b-4a83-b207-a5f4804e56c5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Math">
+    <Filter Include="ヘッダーファイル">
+      <UniqueIdentifier>{75fca926-acaf-4c6a-a39a-6282758a1b6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソースファイル">
+      <UniqueIdentifier>{c692ea36-9b83-486c-8522-32f9e4e71be6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソースファイル\Math">
       <UniqueIdentifier>{c6ecd78e-60a9-4805-86f4-80b50db09e41}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Collision">
+    <Filter Include="ソースファイル\Collision">
       <UniqueIdentifier>{499bf903-495d-420d-9aa4-e5e5cb30a64c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="3D">
+    <Filter Include="ソースファイル\3D">
       <UniqueIdentifier>{83785984-c66c-4757-9db2-73b20e4192e5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Vector">
+    <Filter Include="ソースファイル\Vector">
       <UniqueIdentifier>{be5dd58f-6ef1-4cc9-abff-b941a7dc7e33}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダーファイル\Vector">
+      <UniqueIdentifier>{d744420c-9c4d-41c9-8f96-ee52b5f9995b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダーファイル\Math">
+      <UniqueIdentifier>{0ff0f624-c76e-4eed-b233-b60f93d9ec61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダーファイル\3D">
+      <UniqueIdentifier>{e3736a0e-1d3e-4eb7-8f9e-d982825e7a3b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダーファイル\Collision">
+      <UniqueIdentifier>{9c1e71b2-1490-4cec-9128-c2e68119dff0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -40,7 +58,6 @@
     <ClCompile Include="C:\KamataEngine\DirectXGame\base\WinApp.cpp">
       <Filter>KamataEngine\Source</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp" />
     <ClCompile Include="C:\KamataEngine\Adapter\Novice.cpp">
       <Filter>KamataEngine\Adapter</Filter>
     </ClCompile>
@@ -48,22 +65,28 @@
       <Filter>KamataEngine</Filter>
     </ClCompile>
     <ClCompile Include="MathCalc.cpp">
-      <Filter>Math</Filter>
+      <Filter>ソースファイル\Math</Filter>
     </ClCompile>
     <ClCompile Include="Collision.cpp">
-      <Filter>Collision</Filter>
+      <Filter>ソースファイル\Collision</Filter>
     </ClCompile>
     <ClCompile Include="DrawSet.cpp">
-      <Filter>3D</Filter>
+      <Filter>ソースファイル\3D</Filter>
     </ClCompile>
     <ClCompile Include="Matrix.cpp">
-      <Filter>Math</Filter>
+      <Filter>ソースファイル\Math</Filter>
     </ClCompile>
     <ClCompile Include="Render.cpp">
-      <Filter>Math</Filter>
+      <Filter>ソースファイル\Math</Filter>
     </ClCompile>
     <ClCompile Include="Vector.cpp">
-      <Filter>Vector</Filter>
+      <Filter>ソースファイル\Vector</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>ソースファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Bezier.cpp">
+      <Filter>KamataEngine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -130,34 +153,37 @@
     <ClInclude Include="C:\KamataEngine\DirectXGame\3d\SpotLight.h">
       <Filter>KamataEngine\Include</Filter>
     </ClInclude>
-    <ClInclude Include="C:\KamataEngine\DirectXGame\math\Matrix4x4.h" />
     <ClInclude Include="C:\KamataEngine\DirectXGame\2d\ImGuiManager.h" />
-    <ClInclude Include="MathCalc.h">
-      <Filter>Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Collision.h">
-      <Filter>Collision</Filter>
-    </ClInclude>
-    <ClInclude Include="DrawSet.h">
-      <Filter>3D</Filter>
-    </ClInclude>
-    <ClInclude Include="Matrix.h">
-      <Filter>Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Render.h">
-      <Filter>Math</Filter>
-    </ClInclude>
-    <ClInclude Include="C:\KamataEngine\DirectXGame\math\Vector4.h">
-      <Filter>Vector</Filter>
+    <ClInclude Include="C:\KamataEngine\DirectXGame\math\Matrix4x4.h">
+      <Filter>ヘッダーファイル</Filter>
     </ClInclude>
     <ClInclude Include="Vector.h">
-      <Filter>Vector</Filter>
+      <Filter>ヘッダーファイル\Vector</Filter>
     </ClInclude>
     <ClInclude Include="C:\KamataEngine\DirectXGame\math\Vector2.h">
-      <Filter>Vector</Filter>
+      <Filter>ヘッダーファイル\Vector</Filter>
     </ClInclude>
     <ClInclude Include="C:\KamataEngine\DirectXGame\math\Vector3.h">
-      <Filter>Vector</Filter>
+      <Filter>ヘッダーファイル\Vector</Filter>
     </ClInclude>
+    <ClInclude Include="C:\KamataEngine\DirectXGame\math\Vector4.h">
+      <Filter>ヘッダーファイル\Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="MathCalc.h">
+      <Filter>ヘッダーファイル\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix.h">
+      <Filter>ヘッダーファイル\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Render.h">
+      <Filter>ヘッダーファイル\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawSet.h">
+      <Filter>ヘッダーファイル\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision.h">
+      <Filter>ヘッダーファイル\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Bezier.h" />
   </ItemGroup>
 </Project>
