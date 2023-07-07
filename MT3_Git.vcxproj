@@ -111,6 +111,7 @@
     <ClCompile Include="C:\KamataEngine\Adapter\Novice.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="DrawSet.cpp" />
+    <ClCompile Include="Hierarchy.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MathCalc.cpp" />
     <ClCompile Include="Matrix.cpp" />
@@ -147,6 +148,7 @@
     <ClInclude Include="C:\KamataEngine\Adapter\Novice.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="DrawSet.h" />
+    <ClInclude Include="Hierarchy.h" />
     <ClInclude Include="MathCalc.h" />
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="Render.h" />

@@ -85,8 +85,11 @@
     <ClCompile Include="main.cpp">
       <Filter>ソースファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Bezier.cpp">
+    <ClCompile Include="Hierarchy.cpp">
       <Filter>KamataEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Bezier.cpp">
+      <Filter>ソースファイル\3D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -184,6 +187,9 @@
     <ClInclude Include="Collision.h">
       <Filter>ヘッダーファイル\Collision</Filter>
     </ClInclude>
-    <ClInclude Include="Bezier.h" />
+    <ClInclude Include="Hierarchy.h" />
+    <ClInclude Include="Bezier.h">
+      <Filter>ヘッダーファイル\3D</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
