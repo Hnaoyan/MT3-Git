@@ -46,7 +46,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	Sphere sphere[3];
 	for (int i = 0; i < 3; i++) {
-		sphere[i].center = translates[i];
+		//sphere[i].center = translates[i];
+		sphere[i].center = {};
 		sphere[i].radius = 0.05f;
 	}
 
@@ -69,9 +70,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		Matrix4x4 worldMatrix = Matrix::MakeAffineMatrix({ 1.0f,1.0f,1.0f }, { 0.0f,0.0f,0.0f }, { 0.0f,0.0f,0.0f });
 		
-		worldMat[0] = Matrix::MakeAffineMatrix(scales[0], rotates[0], sphere[0].center);
-		worldMat[1] = Matrix::Multiply(Matrix::MakeAffineMatrix(scales[1], rotates[1], sphere[1].center), worldMat[0]);
-		worldMat[2] = Matrix::Multiply(Matrix::MakeAffineMatrix(scales[2], rotates[2], sphere[2].center), worldMat[1]);
+		worldMat[0] = Matrix::MakeAffineMatrix(scales[0], rotates[0], translates[0]);
+		worldMat[1] = Matrix::Multiply(Matrix::MakeAffineMatrix(scales[1], rotates[1], translates[1]), worldMat[0]);
+		worldMat[2] = Matrix::Multiply(Matrix::MakeAffineMatrix(scales[2], rotates[2], translates[2]), worldMat[1]);
 
 		Matrix4x4 cameraMatrix = Matrix::MakeAffineMatrix({ 1.0f,1.0f,1.0f }, cameraRotate, cameraTranslate);
 		Matrix4x4 viewMatrix = Matrix::Inverse(cameraMatrix);
@@ -86,23 +87,19 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		ImGui::Begin("Debug");
 		ImGui::DragFloat3("camera.center", &cameraTranslate.x, 0.01f, -7.0f, 7.0f);
 		ImGui::DragFloat3("camera.rotate", &cameraRotate.x, 0.01f, -3.0f, 3.0f);
-		ImGui::DragFloat3("trans[0]", &translates[0].x, 0.01f, -3.0f, 3.0f);
-		ImGui::DragFloat3("rotate[0]", &rotates[0].x, 0.01f, -3.0f, 3.0f);
-		ImGui::DragFloat3("scale[0]", &scales[0].x, 0.01f, -3.0f, 3.0f);
+		ImGui::DragFloat3("trans[0]", &translates[0].x, 0.01f, -10.0f, 10.0f);
+		ImGui::DragFloat3("rotate[0]", &rotates[0].x, 0.01f, -10.0f, 10.0f);
+		ImGui::DragFloat3("scale[0]", &scales[0].x, 0.01f, -10.0f, 10.0f);
 
-		ImGui::DragFloat3("trans[1]", &translates[1].x, 0.01f, -3.0f, 3.0f);
-		ImGui::DragFloat3("rotate[1]", &rotates[1].x, 0.01f, -3.0f, 3.0f);
-		ImGui::DragFloat3("scale[1]", &scales[1].x, 0.01f, -3.0f, 3.0f);
+		ImGui::DragFloat3("trans[1]", &translates[1].x, 0.01f, -10.0f, 10.0f);
+		ImGui::DragFloat3("rotate[1]", &rotates[1].x, 0.01f, -10.0f, 10.0f);
+		ImGui::DragFloat3("scale[1]", &scales[1].x, 0.01f, -10.0f, 10.0f);
 
-		ImGui::DragFloat3("trans[2]", &translates[2].x, 0.01f, -3.0f, 3.0f);
-		ImGui::DragFloat3("rotate[2]", &rotates[2].x, 0.01f, -3.0f, 3.0f);
-		ImGui::DragFloat3("scale[2]", &scales[2].x, 0.01f, -3.0f, 3.0f);
+		ImGui::DragFloat3("trans[2]", &translates[2].x, 0.01f, -10.0f, 10.0f);
+		ImGui::DragFloat3("rotate[2]", &rotates[2].x, 0.01f, -10.0f, 10.0f);
+		ImGui::DragFloat3("scale[2]", &scales[2].x, 0.01f, -10.0f, 10.0f);
 
 		ImGui::End();
-
-		for (int i = 0; i < 3; i++) {
-			sphere[i].center = translates[i];
-		}
 
 		///
 		/// ↑更新処理ここまで
@@ -114,13 +111,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		DrawSet::DrawGrid(worldViewProjectionMatrix, viewportMatrix);
 
-		DrawSet::DrawSphere(sphere[0], worldMatrix, viewportMatrix, RED);
+		DrawSet::DrawSphere(sphere[0], VPJMatrix[0], viewportMatrix, RED);
 		DrawSet::DrawSphere(sphere[1], VPJMatrix[1], viewportMatrix, GREEN);
 		DrawSet::DrawSphere(sphere[2], VPJMatrix[2], viewportMatrix, BLUE);
-
-		Novice::DrawLine(int(translates[0].x), int(translates[0].y), int(translates[1].x), int(translates[1].y), WHITE);
-		//Novice::DrawLine(int(sphere[1].center.x), int(sphere[1].center.y), int(sphere[2].center.x), int(sphere[2].center.y), WHITE);
-
 
 		///
 		/// ↑描画処理ここまで
